@@ -15,11 +15,7 @@ namespace _Project.Scripts
             {
                 m_inputReader.EnablePlayerActions();
                 EventSubscriptions();
-                
-                Debug.Log(name + " : I own myself!");
             }
-            
-            Debug.Log("I am the local player");
         }
 
         [Client]
