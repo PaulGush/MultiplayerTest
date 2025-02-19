@@ -28,13 +28,13 @@ namespace _Project.Scripts
         [Client]
         private void OnJump(bool arg0)
         {
-            Debug.Log(name + " :I am listening to the jump event");
+            
         }
         
         [Client]
         private void OnMove(Vector2 arg0)
         {
-            Debug.Log(name + " :I am listening to the move event");
+            
         }
     }
 }
