@@ -41,7 +41,7 @@ public class CharacterAnimator : NetworkBehaviour
         //If this character is owned by the local player, then we update the server with the local player's input
         
         m_speed = m_inputReader.Direction.magnitude;
-        m_motionSpeed = m_inputReader.Direction.magnitude;
+        m_motionSpeed = m_inputReader.Direction.magnitude * 6;
         m_jump = m_inputReader.IsJumpKeyPressed;
         m_grounded = true;
     }
@@ -63,7 +63,7 @@ public class CharacterAnimator : NetworkBehaviour
         //If we own this character, then we update the animator with the local player's input (bypassing any need for server/client communication)
         
         m_animator.SetFloat(Speed, m_inputReader.Direction.magnitude);
-        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude);
+        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude * 6);
         m_animator.SetBool(Jump, m_inputReader.IsJumpKeyPressed);
         m_animator.SetBool(Grounded, true);
     }
