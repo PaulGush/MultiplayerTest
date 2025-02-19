@@ -23,7 +23,7 @@ public class CharacterAnimator : NetworkBehaviour
         {
             LocalPlayerUpdateToServer();
         }
-        else
+        else if (isServer)
         {
             ServerUpdateToClients();
         }
@@ -45,11 +45,10 @@ public class CharacterAnimator : NetworkBehaviour
         m_animator.SetBool(Grounded, true);
     }
     
-    [ClientRpc]
+    [Command]
     private void ServerUpdateToClients()
     {
         //If this character is not owned by the local player, then we update the clients with the whatever the server last stored as input from that player 
-        
         m_speed = m_inputReader.Direction.magnitude;
         m_motionSpeed = m_inputReader.Direction.magnitude;
         m_jump = m_inputReader.IsJumpKeyPressed;
