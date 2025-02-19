@@ -24,7 +24,7 @@ public class CharacterAnimator : NetworkBehaviour
             CMD_LocalPlayerInputToServer();
             UpdateLocalAnimatorWithLocalInput();
         }
-        else if (isServer)
+        else
         {
             RPC_ServerUpdateToClients();
         }
@@ -55,9 +55,9 @@ public class CharacterAnimator : NetworkBehaviour
     [Client]
     private void UpdateLocalAnimatorWithLocalInput()
     {
-        m_animator.SetFloat(Speed, m_speed);
-        m_animator.SetFloat(MotionSpeed, m_motionSpeed);
-        m_animator.SetBool(Jump, m_jump);
-        m_animator.SetBool(Grounded, m_grounded);
+        m_animator.SetFloat(Speed, m_inputReader.Direction.magnitude);
+        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude);
+        m_animator.SetBool(Jump, m_inputReader.IsJumpKeyPressed);
+        m_animator.SetBool(Grounded, true);
     }
 }
