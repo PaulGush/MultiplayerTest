@@ -27,6 +27,10 @@ public class CharacterAnimator : NetworkBehaviour
         if (isServer && isOwned)
         {
             RPC_LocalPlayerInputToServer();
+        }
+        
+        if (isServer && !isOwned)
+        {
             RPC_ServerUpdateToClients();
         }
     }
@@ -56,6 +60,8 @@ public class CharacterAnimator : NetworkBehaviour
     [Client]
     private void UpdateLocalAnimatorWithLocalInput()
     {
+        //If we own this character, then we update the animator with the local player's input (bypassing any need for server/client communication)
+        
         m_animator.SetFloat(Speed, m_inputReader.Direction.magnitude);
         m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude);
         m_animator.SetBool(Jump, m_inputReader.IsJumpKeyPressed);
