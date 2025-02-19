@@ -21,16 +21,17 @@ public class CharacterAnimator : NetworkBehaviour
     {
         if (isOwned)
         {
-            LocalPlayerUpdateToServer();
+            CMD_LocalPlayerInputToServer();
+            UpdateLocalAnimatorWithLocalInput();
         }
-        else
+        else if (isServer)
         {
             RPC_ServerUpdateToClients();
         }
     }
 
     [Command]
-    private void LocalPlayerUpdateToServer()
+    private void CMD_LocalPlayerInputToServer()
     {
         //If this character is owned by the local player, then we update the server with the local player's input
         
@@ -38,11 +39,6 @@ public class CharacterAnimator : NetworkBehaviour
         m_motionSpeed = m_inputReader.Direction.magnitude;
         m_jump = m_inputReader.IsJumpKeyPressed;
         m_grounded = true;
-        
-        m_animator.SetFloat(Speed, m_speed);
-        m_animator.SetFloat(MotionSpeed, m_motionSpeed);
-        m_animator.SetBool(Jump, m_jump);
-        m_animator.SetBool(Grounded, m_grounded);
     }
     
     [ClientRpc]
@@ -50,6 +46,15 @@ public class CharacterAnimator : NetworkBehaviour
     {
         //If this character is not owned by the local player, then we update the clients with the whatever the server last stored as input from that player 
         
+        m_animator.SetFloat(Speed, m_speed);
+        m_animator.SetFloat(MotionSpeed, m_motionSpeed);
+        m_animator.SetBool(Jump, m_jump);
+        m_animator.SetBool(Grounded, m_grounded);
+    }
+
+    [Client]
+    private void UpdateLocalAnimatorWithLocalInput()
+    {
         m_animator.SetFloat(Speed, m_speed);
         m_animator.SetFloat(MotionSpeed, m_motionSpeed);
         m_animator.SetBool(Jump, m_jump);
