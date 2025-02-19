@@ -21,7 +21,7 @@ public class CharacterAnimator : NetworkBehaviour
     {
         if (isOwned)
         {
-            CMD_LocalPlayerInputToServer();
+            RPC_LocalPlayerInputToServer();
             UpdateLocalAnimatorWithLocalInput();
         }
         else
@@ -30,8 +30,8 @@ public class CharacterAnimator : NetworkBehaviour
         }
     }
 
-    [Command]
-    private void CMD_LocalPlayerInputToServer()
+    [ClientRpc]
+    private void RPC_LocalPlayerInputToServer()
     {
         //If this character is owned by the local player, then we update the server with the local player's input
         
