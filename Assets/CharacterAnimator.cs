@@ -21,11 +21,12 @@ public class CharacterAnimator : NetworkBehaviour
     {
         if (isOwned)
         {
-            RPC_LocalPlayerInputToServer();
             UpdateLocalAnimatorWithLocalInput();
         }
-        else
+        
+        if (isServer && isOwned)
         {
+            RPC_LocalPlayerInputToServer();
             RPC_ServerUpdateToClients();
         }
     }
