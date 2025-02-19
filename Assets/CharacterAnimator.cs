@@ -25,7 +25,7 @@ public class CharacterAnimator : NetworkBehaviour
         }
         else
         {
-            ServerUpdateToClients();
+            RPC_ServerUpdateToClients();
         }
     }
 
@@ -39,14 +39,11 @@ public class CharacterAnimator : NetworkBehaviour
         m_jump = m_inputReader.IsJumpKeyPressed;
         m_grounded = true;
         
-        m_animator.SetFloat(Speed, m_inputReader.Direction.magnitude);
-        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude);
-        m_animator.SetBool(Jump, m_inputReader.IsJumpKeyPressed);
-        m_animator.SetBool(Grounded, true);
+        RPC_ServerUpdateToClients();
     }
     
-    [Command]
-    private void ServerUpdateToClients()
+    [ClientRpc]
+    private void RPC_ServerUpdateToClients()
     {
         //If this character is not owned by the local player, then we update the clients with the whatever the server last stored as input from that player 
         
