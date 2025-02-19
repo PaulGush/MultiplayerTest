@@ -23,7 +23,7 @@ public class CharacterAnimator : NetworkBehaviour
         {
             LocalPlayerUpdateToServer();
         }
-        else if (isServer)
+        else
         {
             ServerUpdateToClients();
         }
