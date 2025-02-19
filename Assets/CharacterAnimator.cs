@@ -39,7 +39,10 @@ public class CharacterAnimator : NetworkBehaviour
         m_jump = m_inputReader.IsJumpKeyPressed;
         m_grounded = true;
         
-        RPC_ServerUpdateToClients();
+        m_animator.SetFloat(Speed, m_speed);
+        m_animator.SetFloat(MotionSpeed, m_motionSpeed);
+        m_animator.SetBool(Jump, m_jump);
+        m_animator.SetBool(Grounded, m_grounded);
     }
     
     [ClientRpc]
