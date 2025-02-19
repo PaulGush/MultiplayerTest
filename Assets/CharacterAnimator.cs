@@ -49,10 +49,6 @@ public class CharacterAnimator : NetworkBehaviour
     private void ServerUpdateToClients()
     {
         //If this character is not owned by the local player, then we update the clients with the whatever the server last stored as input from that player 
-        m_speed = m_inputReader.Direction.magnitude;
-        m_motionSpeed = m_inputReader.Direction.magnitude;
-        m_jump = m_inputReader.IsJumpKeyPressed;
-        m_grounded = true;
         
         m_animator.SetFloat(Speed, m_speed);
         m_animator.SetFloat(MotionSpeed, m_motionSpeed);

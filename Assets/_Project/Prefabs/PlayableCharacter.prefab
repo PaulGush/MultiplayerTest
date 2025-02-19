@@ -1235,7 +1235,7 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 1882845393930547069}
 --- !u!136 &758168233352960475
 CapsuleCollider:
