@@ -17,19 +17,19 @@ namespace _Project.Scripts.Input
         public UnityAction<Vector2> Move = delegate {  };
         public UnityAction<bool> Jump = delegate {  };
 
-        public InputSystem_Actions InputActions;
+        private InputSystem_Actions m_inputActions;
         
-        public Vector2 Direction => InputActions.Player.Move.ReadValue<Vector2>();
+        public Vector2 Direction => m_inputActions.Player.Move.ReadValue<Vector2>();
         
-        public bool IsJumpKeyPressed => InputActions.Player.Jump.IsPressed();
+        public bool IsJumpKeyPressed => m_inputActions.Player.Jump.IsPressed();
         public void EnablePlayerActions()
         {
-            if (InputActions == null)
+            if (m_inputActions == null)
             {
-                InputActions = new InputSystem_Actions();
-                InputActions.Player.SetCallbacks(this);
+                m_inputActions = new InputSystem_Actions();
+                m_inputActions.Player.SetCallbacks(this);
             }
-            InputActions.Enable();
+            m_inputActions.Enable();
         }
         public void OnMove(InputAction.CallbackContext context)
         {
