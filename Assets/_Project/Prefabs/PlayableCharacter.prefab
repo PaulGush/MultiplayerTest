@@ -1274,6 +1274,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  m_inputReader: {fileID: 11400000, guid: 78337607bed6f7e4f876c36a02e7a207, type: 2}
 --- !u!1 &4818169630032509620
 GameObject:
   m_ObjectHideFlags: 0
