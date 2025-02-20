@@ -24,7 +24,7 @@ public class CharacterAnimator : NetworkBehaviour
             UpdateLocalAnimatorWithLocalInput();
         }
         
-        if (isServer && isOwned)
+        /*if (isServer && isOwned)
         {
             RPC_LocalPlayerInputToServer();
         }
@@ -32,7 +32,7 @@ public class CharacterAnimator : NetworkBehaviour
         if (isServer && !isOwned)
         {
             RPC_ServerUpdateToClients();
-        }
+        }*/
     }
 
     [ClientRpc]
