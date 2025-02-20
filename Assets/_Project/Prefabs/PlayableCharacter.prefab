@@ -1119,6 +1119,7 @@ GameObject:
   - component: {fileID: 758168233352960475}
   - component: {fileID: 8384619525545702995}
   - component: {fileID: 742655707087920988}
+  - component: {fileID: -2480225213032585689}
   m_Layer: 0
   m_Name: PlayableCharacter
   m_TagString: Untagged
@@ -1293,6 +1294,23 @@ MonoBehaviour:
   syncInterval: 0
   m_animator: {fileID: 1882845393930547069}
   m_inputReader: {fileID: 11400000, guid: 78337607bed6f7e4f876c36a02e7a207, type: 2}
+--- !u!114 &-2480225213032585689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758264001082543982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5055281ab034bbbb2c6fb491d33b09e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  m_inputReader: {fileID: 11400000, guid: 78337607bed6f7e4f876c36a02e7a207, type: 2}
+  m_moveSpeed: 5
 --- !u!1 &4818169630032509620
 GameObject:
   m_ObjectHideFlags: 0
