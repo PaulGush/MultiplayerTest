@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Input;
 using Mirror;
 using Unity.Cinemachine;
@@ -17,14 +18,19 @@ namespace _Project.Scripts
         [SerializeField] private float m_rotationSmoothTime = 0.12f;
 
         [SerializeField] private CinemachineCamera m_camera;
+        [SerializeField] private Transform m_cameraTarget;
         
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
 
+            m_camera = transform.GetComponentInChildren<CinemachineCamera>();
+            Cursor.lockState = CursorLockMode.Locked;
+            
             if (!isOwned)
             {
                 m_camera.gameObject.SetActive(false);
+                m_cameraTarget.gameObject.SetActive(false);
             }
         }
 
@@ -35,36 +41,33 @@ namespace _Project.Scripts
                 UpdateLocalPlayerLocomotion();
             }
         }
-        
+
+        private void LateUpdate()
+        {
+            if (isOwned)
+            {
+                UpdateLocalCameraRotation();
+            }
+        }
+
         [Client]
         private void UpdateLocalPlayerLocomotion()
         {
             //If we own this character, then we update the locomotion with the local player's input (bypassing any need for server/client communication)
-            Vector2 direction = m_inputReader.Direction;
-            Vector3 move = new Vector3(direction.x, 0, direction.y);
-            transform.Translate(move * (Time.deltaTime * m_moveSpeed), Space.World);
             
-            // if there is a move input rotate player when the player is moving
-            if (!Equals(m_inputReader.Move, Vector2.zero))
-            {
-                float targetRotation;
-
-                if (isOwned)
-                {
-                    targetRotation = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg +
-                                      m_camera.transform.eulerAngles.y;
-                }
-                else
-                {
-                    targetRotation = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-                }
-
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref m_rotationVelocity,
-                    m_rotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
+            Vector2 direction = m_inputReader.Direction;
+            Vector3 move = m_camera.transform.forward * direction.y + m_camera.transform.right * direction.x;
+            move.y = 0; // Ensure the movement is only on the XZ plane
+            transform.Translate(move * (Time.deltaTime * m_moveSpeed), Space.World);
+        }
+        
+        [Client]
+        private void UpdateLocalCameraRotation()
+        {
+            Vector2 direction = m_inputReader.LookDirection;
+            
+            //Use input to rotate the camera
+            m_cameraTarget.rotation *= Quaternion.Euler(Vector3.up * (direction.x * m_rotationSmoothTime) + Vector3.right * (-direction.y * m_rotationSmoothTime));
         }
     }
 }

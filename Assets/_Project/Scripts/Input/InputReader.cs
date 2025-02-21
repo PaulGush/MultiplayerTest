@@ -15,11 +15,13 @@ namespace _Project.Scripts.Input
     public class InputReader : ScriptableObject, IInputReader, IPlayerActions
     {
         public UnityAction<Vector2> Move = delegate {  };
+        public UnityAction<Vector2> Look = delegate {  };
         public UnityAction<bool> Jump = delegate {  };
 
         private InputSystem_Actions m_inputActions;
         
         public Vector2 Direction => m_inputActions.Player.Move.ReadValue<Vector2>();
+        public Vector2 LookDirection => m_inputActions.Player.Look.ReadValue<Vector2>();
         
         public bool IsJumpKeyPressed => m_inputActions.Player.Jump.IsPressed();
         public void EnablePlayerActions()
@@ -37,7 +39,7 @@ namespace _Project.Scripts.Input
         }
         public void OnLook(InputAction.CallbackContext context)
         {
-            
+            Look?.Invoke(context.ReadValue<Vector2>());
         }
         public void OnAttack(InputAction.CallbackContext context)
         {

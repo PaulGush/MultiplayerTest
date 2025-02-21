@@ -350,6 +350,37 @@ Transform:
   - {fileID: 4310654736999427088}
   m_Father: {fileID: 3002048432994798488}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1294153627037624704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 639176901289467372}
+  m_Layer: 0
+  m_Name: CinemachineTarget
+  m_TagString: CinemachineTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &639176901289467372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294153627037624704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5539754412799516219}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1533439661825208541
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +632,7 @@ Transform:
   m_GameObject: {fileID: 2985534461572060674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.6, z: -4}
+  m_LocalPosition: {x: 0, y: 1.75, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -627,7 +658,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 633393108885603571}
+    TrackingTarget: {fileID: 639176901289467372}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -663,16 +694,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 0.8, y: 0.4, z: 0}
-  VerticalArmLength: 1.2
-  CameraSide: 0.5
-  CameraDistance: 4
+  ShoulderOffset: {x: 0, y: 0.4, z: 0}
+  VerticalArmLength: 0
+  CameraSide: 0
+  CameraDistance: 3
   AvoidObstacles:
-    Enabled: 0
+    Enabled: 1
     CollisionFilter:
       serializedVersion: 2
       m_Bits: 1
-    IgnoreTag: 
+    IgnoreTag: Player
     CameraRadius: 0.2
     DampingIntoCollision: 0
     DampingFromCollision: 0.5
@@ -1245,7 +1276,7 @@ GameObject:
   - component: {fileID: -2480225213032585689}
   m_Layer: 0
   m_Name: PlayableCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1271,6 +1302,7 @@ Transform:
   - {fileID: 4875517869864526712}
   - {fileID: 633393108885603571}
   - {fileID: 8579014129727787417}
+  - {fileID: 639176901289467372}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1882845393930547069
@@ -1443,7 +1475,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &8384619525545702995
 MonoBehaviour:
@@ -1495,6 +1527,10 @@ MonoBehaviour:
   syncInterval: 0
   m_inputReader: {fileID: 11400000, guid: 78337607bed6f7e4f876c36a02e7a207, type: 2}
   m_moveSpeed: 5
+  m_rotationVelocity: 0
+  m_rotationSmoothTime: 0.1
+  m_camera: {fileID: 7041194945275085773}
+  m_cameraTarget: {fileID: 639176901289467372}
 --- !u!1 &4818169630032509620
 GameObject:
   m_ObjectHideFlags: 0

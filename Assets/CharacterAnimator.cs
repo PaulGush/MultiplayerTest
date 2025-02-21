@@ -26,7 +26,7 @@ public class CharacterAnimator : NetworkBehaviour
         //If we own this character, then we update the animator with the local player's input (bypassing any need for server/client communication)
         
         m_animator.SetFloat(Speed, m_inputReader.Direction.magnitude * 6, 0.1f, Time.deltaTime);
-        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude * 3, 0.1f, Time.deltaTime);
+        m_animator.SetFloat(MotionSpeed, m_inputReader.Direction.magnitude, 0.1f, Time.deltaTime);
         m_animator.SetBool(Jump, m_inputReader.IsJumpKeyPressed);
         m_animator.SetBool(Grounded, true);
     }
