@@ -1,9 +1,8 @@
-using System;
 using _Project.Scripts.Input;
 using Mirror;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _Project.Scripts
 {
@@ -17,41 +16,52 @@ namespace _Project.Scripts
         [Range(0.0f, 0.3f)]
         [SerializeField] private float m_rotationSmoothTime = 0.12f;
 
+        [SerializeField] private Transform m_cameraFollowTarget; 
         [SerializeField] private CinemachineCamera m_camera;
-        [SerializeField] private Transform m_cameraTarget;
         
+        private CinemachineOrbitalFollow m_orbitalFollow;
+
         public override void OnStartLocalPlayer()
         {
             base.OnStartLocalPlayer();
 
-            m_camera = transform.GetComponentInChildren<CinemachineCamera>();
             Cursor.lockState = CursorLockMode.Locked;
-            
-            if (!isOwned)
-            {
-                m_camera.gameObject.SetActive(false);
-                m_cameraTarget.gameObject.SetActive(false);
+
+            if (isOwned)
+            {   
+                CinemachineCameraSetup();
             }
+        }
+
+        private void CinemachineCameraSetup()
+        {
+            m_camera = new GameObject().AddComponent<CinemachineCamera>();
+            m_camera.name = "Cinemachine Camera";
+                
+            m_camera.Follow = m_cameraFollowTarget;
+            m_camera.LookAt = m_cameraFollowTarget;
+
+            m_camera.Lens.FieldOfView = 60;
+
+            m_orbitalFollow = m_camera.GetOrAddComponent<CinemachineOrbitalFollow>();
+                
+            m_orbitalFollow.VerticalAxis.Range = new Vector2(-20, 60);
+            m_orbitalFollow.Radius = 4;
+                
+            m_camera.GetOrAddComponent<CinemachineRotationComposer>();
+            m_camera.GetOrAddComponent<CinemachineInputAxisController>();
         }
 
         private void Update()
         {
             if (isOwned)
             {
-                UpdateLocalPlayerLocomotion();
-            }
-        }
-
-        private void LateUpdate()
-        {
-            if (isOwned)
-            {
-                UpdateLocalCameraRotation();
+                HandleLocalPlayerLocomotionInput();
             }
         }
 
         [Client]
-        private void UpdateLocalPlayerLocomotion()
+        private void HandleLocalPlayerLocomotionInput()
         {
             //If we own this character, then we update the locomotion with the local player's input (bypassing any need for server/client communication)
             
@@ -59,15 +69,14 @@ namespace _Project.Scripts
             Vector3 move = m_camera.transform.forward * direction.y + m_camera.transform.right * direction.x;
             move.y = 0; // Ensure the movement is only on the XZ plane
             transform.Translate(move * (Time.deltaTime * m_moveSpeed), Space.World);
+            
+            if (move.magnitude > 0)
+            {
+                Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+                transform.rotation = Quaternion.Euler(Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, toRotation.eulerAngles.y, ref m_rotationVelocity, m_rotationSmoothTime));
+            }
         }
         
-        [Client]
-        private void UpdateLocalCameraRotation()
-        {
-            Vector2 direction = m_inputReader.LookDirection;
-            
-            //Use input to rotate the camera
-            m_cameraTarget.rotation *= Quaternion.Euler(Vector3.up * (direction.x * m_rotationSmoothTime) + Vector3.right * (-direction.y * m_rotationSmoothTime));
-        }
+        
     }
 }
