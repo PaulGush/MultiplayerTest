@@ -43,13 +43,15 @@ namespace _Project.Scripts
 
             m_camera.Lens.FieldOfView = 60;
 
-            m_orbitalFollow = m_camera.GetOrAddComponent<CinemachineOrbitalFollow>();
-                
+            m_orbitalFollow = m_camera.AddComponent<CinemachineOrbitalFollow>();
+            
+            m_orbitalFollow.HorizontalAxis.Recentering.Enabled = true;
+            m_orbitalFollow.VerticalAxis.Recentering.Enabled = true;
             m_orbitalFollow.VerticalAxis.Range = new Vector2(-20, 60);
             m_orbitalFollow.Radius = 4;
                 
-            m_camera.GetOrAddComponent<CinemachineRotationComposer>();
-            m_camera.GetOrAddComponent<CinemachineInputAxisController>();
+            m_camera.AddComponent<CinemachineRotationComposer>();
+            m_camera.AddComponent<CinemachineInputAxisController>();
         }
 
         private void Update()
